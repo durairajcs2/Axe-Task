@@ -1,0 +1,15 @@
+List of Resources used:
+-----------------------
+
+https://api.drupal.org/api/examples/examples.module/group/examples/8.x-1.x
+
+https://www.drupal.org/docs/8/api/configuration-api/simple-configuration-api
+
+http://cgit.drupalcode.org/drupal/tree/core/modules/system/src/Form/SiteInformationForm.php?h=8.0.x
+
+https://www.frobiovox.com/posts/2016/03/28/simplify-drupal-8-field-value-calls.html
+
+
+Total Time:
+-----------
+3 hrs

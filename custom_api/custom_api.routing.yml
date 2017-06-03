@@ -1,0 +1,7 @@
+custom_api_page_json:
+  path: 'page_json/{apikey}/{nid}'
+  defaults:
+    _controller: '\Drupal\custom_api\Controller\CustomApiController::jsonview'
+    _title: 'JSON Preview'    
+  requirements:
+    _permission: 'access content'

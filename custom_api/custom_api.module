@@ -1,0 +1,59 @@
+<?php
+
+/**
+ * @file
+ * Used for custom config and page of API.
+ */
+
+use \Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_form_alter().
+ */
+function custom_api_form_alter(&$form, FormStateInterface $form_state, $form_id) {	
+
+    // alter "System Site Information Settings" form.
+	if ($form_id === 'system_site_information_settings') {
+
+		//	get "siteapikey" from the config system settings
+		$config = \Drupal::config('system.site');
+		$api_key = $config->get('siteapikey');
+
+		// define custom field for getting "siteapikey" value
+		$form['site_information']['siteapikey'] = array(
+			'#type' => 'textfield',
+			'#title' => t('Site API Key'),
+			'#default_value' => !empty($api_key) ? $api_key : t('No API Key yet'),
+			'#description' => t('Enter the Site API Key here.'),
+			'#size' => 60,
+			'#maxlength' => 128,
+			'#required' => TRUE,
+		);
+
+		// Define custom form submit
+		$form['actions']['submit']['#value'] = t('Update Configuration');
+		$form['actions']['submit']['#submit'][] = 'custom_settings_form_submit';
+	}
+}
+
+// Custom submit function for saving "Site API Key"
+function custom_settings_form_submit($form, FormStateInterface $form_state){
+	
+	// get "siteapikey" from $form_state values
+	$api_key = $form_state->getValue('siteapikey');
+	
+	// saving "siteapikey"
+	$config = \Drupal::service('config.factory')->getEditable('system.site');
+	
+	$config->set('name', $form_state->getValue('site_name'));
+	$config->set('mail', $form_state->getValue('site_mail'));
+	$config->set('slogan', $form_state->getValue('site_slogan'));
+	$config->set('page.front', $form_state->getValue('site_frontpage'));
+	$config->set('page.403', $form_state->getValue('site_403'));
+	$config->set('page.404', $form_state->getValue('site_404'));
+	
+	$config->set('siteapikey', $api_key);
+	$config->save();
+	
+	drupal_set_message(t('The Site API Key value "'.$api_key.'" is updated successfully.'));
+}
